@@ -241,7 +241,7 @@ async def test_database_page(ds_client):
                 "foreign_key_compound_pk2",
             ],
             "primary_keys": ["pk"],
-            "count": 2,
+            "count": 3,
             "hidden": False,
             "fts_table": None,
             "foreign_keys": {
@@ -411,7 +411,7 @@ async def test_database_page(ds_client):
             "name": "simple_primary_key",
             "columns": ["id", "content"],
             "primary_keys": ["id"],
-            "count": 5,
+            "count": 6,
             "hidden": False,
             "fts_table": None,
             "foreign_keys": {
@@ -648,6 +648,7 @@ async def test_custom_sql(ds_client):
             {"content": ""},
             {"content": "RENDER_CELL_DEMO"},
             {"content": "RENDER_CELL_ASYNC"},
+            {"content": "hello"},
         ],
         "ok": True,
         "truncated": False,
@@ -748,6 +749,51 @@ async def test_row_foreign_key_tables(ds_client):
             "other_column": "f1",
             "count": 1,
             "link": "/fixtures/complex_foreign_keys?f1=1",
+        },
+    ]
+
+
+@pytest.mark.asyncio
+async def test_row_foreign_key_tilde_tables(ds_client):
+    response = await ds_client.get(
+        "/fixtures/simple_primary_key/hell~23w~23rld.json?_extras=foreign_key_tables"
+    )
+    assert response.status_code == 200
+    assert response.json()["foreign_key_tables"] == [
+        {
+            "other_table": "foreign_key_references",
+            "column": "id",
+            "other_column": "foreign_key_with_blank_label",
+            "count": 0,
+            "link": "/fixtures/foreign_key_references?foreign_key_with_blank_label=hell~23w~23rld",
+        },
+        {
+            "other_table": "foreign_key_references",
+            "column": "id",
+            "other_column": "foreign_key_with_label",
+            "count": 1,
+            "link": "/fixtures/foreign_key_references?foreign_key_with_label=hell~23w~23rld",
+        },
+        {
+            "other_table": "complex_foreign_keys",
+            "column": "id",
+            "other_column": "f3",
+            "count": 0,
+            "link": "/fixtures/complex_foreign_keys?f3=hell~23w~23rld",
+        },
+        {
+            "other_table": "complex_foreign_keys",
+            "column": "id",
+            "other_column": "f2",
+            "count": 0,
+            "link": "/fixtures/complex_foreign_keys?f2=hell~23w~23rld",
+        },
+        {
+            "other_table": "complex_foreign_keys",
+            "column": "id",
+            "other_column": "f1",
+            "count": 0,
+            "link": "/fixtures/complex_foreign_keys?f1=hell~23w~23rld",
         },
     ]
 

@@ -679,12 +679,14 @@ INSERT INTO simple_primary_key VALUES (2, 'world');
 INSERT INTO simple_primary_key VALUES (3, '');
 INSERT INTO simple_primary_key VALUES (4, 'RENDER_CELL_DEMO');
 INSERT INTO simple_primary_key VALUES (5, 'RENDER_CELL_ASYNC');
+INSERT INTO simple_primary_key VALUES ('hell#w#rld', 'hello');
 
 INSERT INTO primary_key_multiple_columns VALUES (1, 'hey', 'world');
 INSERT INTO primary_key_multiple_columns_explicit_label VALUES (1, 'hey', 'world2');
 
 INSERT INTO foreign_key_references VALUES (1, 1, 3, 1, 'a', 'b');
 INSERT INTO foreign_key_references VALUES (2, null, null, null, null, null);
+INSERT INTO foreign_key_references VALUES (3, 'hell#w#rld', null, null, null, null);
 
 INSERT INTO complex_foreign_keys VALUES (1, 1, 2, 1);
 INSERT INTO custom_foreign_key_label VALUES (1, 1);

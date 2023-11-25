@@ -3,6 +3,7 @@ from datasette.database import QueryInterrupted
 from .base import DataView, BaseView, _error
 from datasette.utils import (
     tilde_decode,
+    tilde_encode,
     urlsafe_components,
     to_css_class,
     escape_sqlite,
@@ -140,7 +141,7 @@ class RowView(DataView):
             link = "{}?{}={}".format(
                 self.ds.urls.table(database, fk["other_table"]),
                 key,
-                ",".join(pk_values),
+                tilde_encode(",".join(pk_values)),
             )
             foreign_key_tables.append({**fk, **{"count": count, "link": link}})
         return foreign_key_tables
